@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Happy Birthday My Love</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      overflow: hidden;
+      height: 100vh;
+      position: relative;
+    }
+
+    /* LOCK SCREEN */
+    #lock-screen {
+      background: linear-gradient(to right, #ff9a9e, #fad0c4);
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 10000;
+    }
+
+    #lock-screen h2 {
+      color: #fff;
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+
+    #passcode {
+      padding: 10px;
+      font-size: 18px;
+      border-radius: 8px;
+      border: none;
+      margin-bottom: 15px;
+    }
+
+    #unlock-btn {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background: #ff4081;
+      color: white;
+      cursor: pointer;
+    }
+
+    /* MAIN CONTENT */
+    #main-content {
+      display: none;
+      background: url(images/WhatsApp Image 2025-06-24 at 10.40.19.jpeg) no-repeat center center fixed;
+      background-size: cover;
+      width: 100%;
+      height: 100vh;
+    }
+
+    marquee {
+      font-size: 2em;
+      color: #ff0066;
+      margin-top: 30px;
+      z-index: 10;
+    }
+
+    .flower {
+      position: absolute;
+      top: -50px;
+      font-size: 24px;
+      animation: fall 5s linear infinite;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+
+    .gift-box {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 80px;
+      cursor: pointer;
+      z-index: 10;
+      transition: transform 0.3s ease;
+    }
+
+    .gift-box:hover {
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    .stars {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: none;
+      z-index: 15;
+    }
+
+    .star {
+      position: absolute;
+      border-radius: 50%;
+      animation: explode 1s ease-out forwards;
+      opacity: 0.9;
+    }
+
+    @keyframes explode {
+      0% { transform: translate(0, 0) scale(1); opacity: 1; }
+      100% { transform: translate(var(--x), var(--y)) scale(0.3); opacity: 0; }
+    }
+
+    .folder {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      overflow-y: auto;
+      background: #fff0f5;
+      padding: 30px;
+      box-shadow: inset 0 0 30px rgba(0,0,0,0.1);
+      z-index: 20;
+    }
+
+    .folder h2 {
+      color: #cc007a;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .section {
+      background: #ffe6f2;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 600px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .link-button {
+      background: #ff66a3;
+      color: white;
+      padding: 15px 25px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      margin: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .link-button:hover {
+      background: #ff3385;
+    }
+
+    #image-page, #poem-page {
+      display: none;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .back-btn {
+      margin-top: 20px;
+      background: #999;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .wheel-container {
+      perspective: 1000px;
+      width: 100%;
+      height: 400px;
+      position: relative;
+      margin-top: 150px;
+    }
+
+    .wheel {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      transform-style: preserve-3d;
+      animation: spin 20s linear infinite;
+    }
+
+    .wheel img {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: transform 0.3s, opacity 0.3s;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    @keyframes spin {
+      0% { transform: rotateY(100deg); }
+      100% { transform: rotateY(360deg); }
+    }
+
+    .heptagon-container {
+      perspective: 1000px;
+      height: 300px;
+      position: relative;
+      margin-top: 150px;
+    }
+
+    .heptagon {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      transform-style: preserve-3d;
+      animation: spin 30s linear infinite;
+    }
+
+    .poem-face {
+      position: absolute;
+      width: 200px;
+      height: 150px;
+      background: #fff;
+      color: #cc0066;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      transform-origin: center;
+      backface-visibility: hidden;
+      cursor: pointer;
+    }
+
+    .pigeon {
+      position: fixed;
+      width: 80px;
+      z-index: 999;
+      top: -100px;
+      left: -100px;
+      transition: top 1.5s ease, left 1.5s ease, transform 1.5s;
+    }
+
+    .enlarged-poem {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 300px;
+      background: #fffaf0;
+      padding: 30px;
+      font-size: 18px;
+      color: #d6006c;
+      border-radius: 20px;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+      transform: translate(-50%, -50%) scale(0);
+      z-index: 1000;
+      text-align: center;
+      transition: transform 0.5s ease;
+    }
+
+    .enlarged-poem.show {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .close-enlarged {
+      margin-top: 15px;
+      background: #999;
+      padding: 8px 16px;
+      color: white;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .enlarged-image-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(255, 192, 203, 0.7);
+      backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transform: scale(0);
+      transition: transform 0.5s ease;
+      flex-direction: column;
+    }
+
+    .enlarged-image-overlay.show {
+      transform: scale(1);
+    }
+
+    .enlarged-image-overlay img {
+      width: 300px;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      animation: zoomIn 0.6s ease;
+    }
+
+    @keyframes zoomIn {
+      from { transform: scale(0.5); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .close-enlarged-img {
+      margin-top: 20px;
+      background: #cc0066;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Lock screen -->
+<div id="lock-screen">
+  <h2>Enter Your Secret Code 🎁</h2>
+  <input type="password" id="passcode" placeholder="Enter code here..." />
+  <button id="unlock-btn">Unlock</button>
+</div>
+
+<!-- Main content starts-->
+<div id="main-content">
+  <marquee>HPPPY BIRTHDAY SWEETIE💖</marquee>
+  <div class="gift-box" onclick="openGift()">🎁</div>
+  <div class="stars" id="stars"></div>
+
+  <div class="folder" id="folder">
+    <h2>📁 Memories & Words Just for You</h2>
+    <div class="section">
+      <p>Choose a gift below:</p>
+      <button class="link-button" onclick="openPage('image')">🖼️ Image</button>
+      <button class="link-button" onclick="openPage('poem')">💌 FOR U</button>
+    </div>
+
+    <div id="image-page" class="section">
+      <h3>🖼️ Image Wheel</h3>
+      <div class="wheel-container">
+        <div class="wheel" id="wheel">
+          <img src="/images/WhatsApp Image 2025-06-23 at 22.32.41.jpeg">
+<img src="/images/WhatsApp Image 2025-06-23 at 22.32.42 (1).jpeg">
+<img src="/images/WhatsApp Image 2025-06-23 at 22.32.42 (2).jpeg">
+<img src="/images/WhatsApp Image 2025-06-23 at 22.32.42.jpeg">
+<img src="/images/WhatsApp Image 2025-06-23 at 22.32.43 (1).jpeg">
+<img src="/images/WhatsApp Image 2025-06-23 at 22.32.43 (2).jpeg">
+<img src="/images/WhatsApp Image 2025-06-23 at 22.32.43.jpeg">
+<img src="/images/WhatsApp Image 2025-06-23 at 23.11.13.jpeg">
+        </div>
+      </div>
+      <button class="back-btn" onclick="closePages()">🔙 Back</button>
+    </div>
+
+    <div id="poem-page" class="section">
+      <h3>💌 A Poem For You</h3>
+      <div class="heptagon-container">
+        <div class="heptagon" id="heptagon">
+          <div class="poem-face">Roses are red,<br>Violets are blue,<br>Every moment’s special,<br>When I’m with you. 💖</div>
+          <div class="poem-face">Your smile’s my sunrise,<br>Your hug, my peace.<br>Every heartbeat whispers<br>“You are my bliss.” 💕</div>
+          <div class="poem-face">I don’t need a reason<br>To think of you,<br>You are my rhythm,<br>My sky so blue. 🌈</div>
+          <div class="poem-face">A wish for joy,<br>A dream come true,<br>Every day I’m thankful<br>Just for you. 🎁</div>
+          <div class="poem-face">Your laugh’s my melody,<br>Your soul, my art,<br>You’re my forever,<br>My favorite part. 🎶</div>
+          <div class="poem-face">The stars may fade,<br>But never you,<br>Happy Birthday Love,<br>Forever true. ✨</div>
+          <div class="poem-face">Seven lines I write,<br>Seven ways I care,<br>Seven hugs and kisses,<br>Just to show I’m there. 😘</div>
+        </div>
+      </div>
+      <button class="back-btn" onclick="closePages()">🔙 Back</button>
+    </div>
+  </div>
+
+  <img id="pigeon" class="pigeon" src="/images/pngwing.com.png" alt="pigeon">
+  <div id="enlargedPoem" class="enlarged-poem">
+    <div id="enlargedPoemText"></div>
+    <button class="close-enlarged" onclick="closeEnlargedPoem()">Close</button>
+  </div>
+
+  <div id="enlargedImageOverlay" class="enlarged-image-overlay">
+    <img id="enlargedImage" src="" alt="Enlarged" />
+    <button class="close-enlarged-img" onclick="closeEnlargedImage()">Close</button>
+  </div>
+</div>
+
+<!-- SCRIPT SECTION -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const flowers = ["🌸", "💐", "🌼", "🌺", "🌷"];
+    for (let i = 0; i < 30; i++) {
+      let flower = document.createElement("div");
+      flower.className = "flower";
+      flower.style.left = Math.random() * 100 + "vw";
+      flower.style.animationDuration = (3 + Math.random() * 5) + "s";
+      flower.innerText = flowers[Math.floor(Math.random() * flowers.length)];
+      document.body.appendChild(flower);
+    }
+
+    // Unlock handler
+    document.getElementById('unlock-btn').addEventListener('click', () => {
+      const code = document.getElementById('passcode').value;
+      const correctCode = "2406";
+
+      if (code === correctCode) {
+        document.getElementById('lock-screen').style.display = 'none';
+        document.getElementById('main-content').style.display = 'block';
+      } else {
+        alert("Wrong code! Try again 💔");
+      }
+    });
+
+    window.openGift = function () {
+      document.querySelector('.gift-box').style.display = 'none';
+      const starsContainer = document.getElementById('stars');
+      starsContainer.style.display = 'block';
+
+      const colors = ['#ffcc00', '#ffff66', '#ffffff', '#ff99cc', '#ccffff'];
+      for (let i = 0; i < 80; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        const angle = Math.random() * 2 * Math.PI;
+        const radius = Math.random() * 250 + 50;
+        star.style.setProperty('--x', `${Math.cos(angle) * radius}px`);
+        star.style.setProperty('--y', `${Math.sin(angle) * radius}px`);
+        const size = Math.random() * 6 + 4;
+        star.style.width = size + 'px';
+        star.style.height = size + 'px';
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        star.style.background = color;
+        star.style.boxShadow = `0 0 10px ${color}, 0 0 20px ${color}`;
+        starsContainer.appendChild(star);
+      }
+
+      setTimeout(() => {
+        starsContainer.style.display = 'none';
+        starsContainer.innerHTML = '';
+        document.getElementById('folder').style.display = 'block';
+        initWheel();
+        initHeptagon();
+      }, 1200);
+    };
+
+    window.openPage = function (type) {
+      document.getElementById('image-page').style.display = 'none';
+      document.getElementById('poem-page').style.display = 'none';
+      document.getElementById(`${type}-page`).style.display = 'block';
+    };
+
+    window.closePages = function () {
+      document.getElementById('image-page').style.display = 'none';
+      document.getElementById('poem-page').style.display = 'none';
+    };
+
+    window.initWheel = function () {
+      const wheel = document.getElementById('wheel');
+      const images = wheel.querySelectorAll('img');
+      const total = images.length;
+      images.forEach((img, i) => {
+        const angle = (360 / total) * i;
+        img.style.transform = `rotateY(${angle}deg) translateZ(300px)`;
+        img.addEventListener('click', () => enlargeImage(img.src));
+      });
+    };
+
+    window.initHeptagon = function () {
+      const faces = document.querySelectorAll('.poem-face');
+      const total = faces.length;
+      const radius = 280;
+      faces.forEach((face, i) => {
+        const angle = (360 / total) * i;
+        face.style.transform = `rotateY(${angle}deg) translateZ(${radius}px)`;
+        face.addEventListener('click', () => deliverPoem(face.innerHTML, face));
+      });
+    };
+
+    window.deliverPoem = function (text, element) {
+      const pigeon = document.getElementById('pigeon');
+      const rect = element.getBoundingClientRect();
+      pigeon.style.top = '-100px';
+      pigeon.style.left = '-100px';
+      setTimeout(() => {
+        pigeon.style.top = `${rect.top}px`;
+        pigeon.style.left = `${rect.left}px`;
+        pigeon.style.transform = 'rotate(30deg)';
+        setTimeout(() => {
+          pigeon.style.top = '50%';
+          pigeon.style.left = '50%';
+          pigeon.style.transform = 'translate(-50%, -50%) rotate(0deg)';
+          setTimeout(() => {
+            document.getElementById('enlargedPoemText').innerHTML = text;
+            document.getElementById('enlargedPoem').classList.add('show');
+          }, 800);
+        }, 1500);
+      }, 100);
+    };
+
+    window.closeEnlargedPoem = function () {
+      document.getElementById('enlargedPoem').classList.remove('show');
+      const pigeon = document.getElementById('pigeon');
+      pigeon.style.top = '-100px';
+      pigeon.style.left = '-100px';
+      pigeon.style.transform = 'rotate(0deg)';
+    };
+
+    window.enlargeImage = function (src) {
+      const overlay = document.getElementById('enlargedImageOverlay');
+      const img = document.getElementById('enlargedImage');
+      img.src = src;
+      overlay.classList.add('show');
+    };
+
+    window.closeEnlargedImage = function () {
+      document.getElementById('enlargedImageOverlay').classList.remove('show');
+    };
+  });
+</script>
+</body>
+</html>
